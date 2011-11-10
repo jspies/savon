@@ -138,6 +138,7 @@ describe Savon::SOAP::XML do
     it "should be false if set to false" do
       xml.instruct = false
       xml.instruct?.should == false
+      xml.instruct = true
     end
   end
 
@@ -215,6 +216,17 @@ describe Savon::SOAP::XML do
       it "should change the default encoding" do
         xml.encoding = "US-ASCII"
         xml.to_xml.should match(/^<\?xml version="1.0" encoding="US-ASCII"\?>/)
+      end
+    end
+    
+    context "without instruct" do
+      after do
+        xml.instruct = true
+      end
+      
+      it "should not have an instruct line" do
+        xml.instruct = false
+        xml.to_xml.should_not match(/^<\?xml version="1.0" encoding="UTF-8"\?>/)
       end
     end
 
