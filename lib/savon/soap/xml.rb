@@ -129,9 +129,15 @@ module Savon
       def encoding
         @encoding ||= "UTF-8"
       end
-
       # Sets the SOAP request encoding.
       attr_writer :encoding
+      
+      # Checks to see if the xml instruct line should be added
+      def instruct?
+        @instruct.nil? ? @instruct = true : @instruct
+      end
+      # Sets whether the instruction line should show
+      attr_writer :instruct
 
       # Accepts a +block+ and yields a <tt>Builder::XmlMarkup</tt> object to let you create
       # custom body XML.
@@ -171,7 +177,7 @@ module Savon
       # Returns a new <tt>Builder::XmlMarkup</tt> object.
       def builder(directive_tag = :xml, attrs = { :encoding => encoding })
         builder = Builder::XmlMarkup.new
-        builder.instruct!(directive_tag, attrs) if directive_tag
+        builder.instruct!(directive_tag, attrs) if directive_tag and instruct?
         builder
       end
 

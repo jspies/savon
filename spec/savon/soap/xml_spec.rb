@@ -129,6 +129,17 @@ describe Savon::SOAP::XML do
       xml.encoding.should == "UTF-8"
     end
   end
+  
+  describe "#instruct" do
+    it "default to true" do
+      xml.instruct?.should == true
+    end
+    
+    it "should be false if set to false" do
+      xml.instruct = false
+      xml.instruct?.should == false
+    end
+  end
 
   describe "#xml" do
     it "lets you specify a completely custom XML String" do
